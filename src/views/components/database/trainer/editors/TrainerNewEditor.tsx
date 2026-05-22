@@ -82,7 +82,7 @@ export const TrainerNewEditor = forwardRef<EditorHandlingClose, TrainerNewEditor
   const onClickNew = () => {
     if (!baseMoneyRef.current || !battleIdRef.current || !battleTransitionRef.current) return;
 
-    let newTrainer = createTrainer(trainers, ai, vsType, battleIdRef.current.valueAsNumber, baseMoneyRef.current.valueAsNumber);
+    let newTrainer = createTrainer(trainers, ai, vsType, battleIdRef.current.valueAsNumber, baseMoneyRef.current.valueAsNumber, battleTransitionRef.current.valueAsNumber);
 
     if (importing && selectedTrainer !== '__undef__') {
       setText(TRAINER_VICTORY_SENTENCE_TEXT_ID, newTrainer.id, getText(TRAINER_VICTORY_SENTENCE_TEXT_ID, trainers[selectedTrainer].id));
