@@ -353,6 +353,7 @@ export const createTrainer = (
     party: [],
     bagEntries: [],
     battleId,
+    battleTransition: 0,
     resources: {
       artworkFull: '',
       artworkSmall: '',
