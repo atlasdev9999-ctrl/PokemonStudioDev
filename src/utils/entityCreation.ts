@@ -339,6 +339,7 @@ export const createTrainer = (
   vsType: StudioTrainerVsType,
   battleId: number,
   baseMoney: number,
+  battleTransition: number,
 ): StudioTrainer => {
   const id = findFirstAvailableId(allTrainers, 0);
   const dbSymbol = `trainer_${id}` as DbSymbol;
