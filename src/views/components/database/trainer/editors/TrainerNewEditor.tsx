@@ -70,6 +70,8 @@ export const TrainerNewEditor = forwardRef<EditorHandlingClose, TrainerNewEditor
   const [battleIdError, setBattleIdError] = useState<'value' | undefined>(undefined);
   const baseMoneyRef = useRef<HTMLInputElement>(null);
   const [baseMoneyError, setBaseMoneyError] = useState<'value' | undefined>(undefined);
+  const battleTransitionRef = useRef<HTMLInputElement>(null);
+  const [battleTransitionError, setBattleTransitionError] = useState<'value' | undefined>(undefined);
   const setText = useSetProjectText();
   const getText = useGetProjectText();
   const [selectedTrainer, setSelectedTrainer] = useState('__undef__');
@@ -78,7 +80,7 @@ export const TrainerNewEditor = forwardRef<EditorHandlingClose, TrainerNewEditor
   useEditorHandlingClose(ref);
 
   const onClickNew = () => {
-    if (!baseMoneyRef.current || !battleIdRef.current) return;
+    if (!baseMoneyRef.current || !battleIdRef.current || !battleTransitionRef.current) return;
 
     let newTrainer = createTrainer(trainers, ai, vsType, battleIdRef.current.valueAsNumber, baseMoneyRef.current.valueAsNumber);
 
@@ -116,8 +118,17 @@ export const TrainerNewEditor = forwardRef<EditorHandlingClose, TrainerNewEditor
       if (battleIdError) setBattleIdError(undefined);
     }
   };
-
-  const checkDisabled = () => !name || !trainerClass || !!baseMoneyError || !!battleIdError;
+  
+ const onBattleTransitionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.valueAsNumber;
+    if (isNaN(value) || value < 0 || value > 9999) {
+      if (!battleTransitionError) setBattleTransitionError('value');
+    } else {
+      if (battleTransitionError) setBattleTransitionError(undefined);
+    }
+  };
+  
+  const checkDisabled = () => !name || !trainerClass || !!baseMoneyError || !!battleIdError || !!battleTransitionError;
 
   const handleTrainerAiLevelChange = (value: string) => {
     setAiCategory(value as StudioTrainerAICategoryType);
@@ -178,6 +189,10 @@ export const TrainerNewEditor = forwardRef<EditorHandlingClose, TrainerNewEditor
         <InputWithLeftLabelContainer>
           <Label htmlFor="base-money">{t('base_money')}</Label>
           <Input type="number" name="base-money" min="0" max="99999" defaultValue={10} ref={baseMoneyRef} onChange={onBaseMoneyChange} />
+        </InputWithLeftLabelContainer>
+        <InputWithLeftLabelContainer>
+          <Label htmlFor="battle-transition">{t('battle_transition')}</Label>
+          <Input type="number" name="battle-transition" min="0" max="9999" defaultValue={0} ref={battleTransitionRef} onChange={onBattleTransitionChange} />
         </InputWithLeftLabelContainer>
         <InputGroupCollapse title={t('other_data')} gap="16px" onClick={() => setImporting(!importing)}>
           <ImportInfoContainer>
