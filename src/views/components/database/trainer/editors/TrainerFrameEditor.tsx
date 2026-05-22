@@ -68,6 +68,7 @@ export const TrainerFrameEditor = forwardRef<EditorHandlingClose>((_, ref) => {
   const trainerNameRef = useRef<HTMLInputElement>(null);
   const trainerClassRef = useRef<HTMLInputElement>(null);
   const battleIdRef = useRef<HTMLInputElement>(null);
+  const battleTransitionRef = useRef<HTMLInputElement>(null);
   const [baseMoney, setBaseMoney] = useState<number>(trainer.baseMoney);
   const [aiCategory, setAiCategory] = useState<StudioTrainerAICategoryType>(
     (trainer.ai > 7 ? 'custom' : trainer.ai.toString()) as StudioTrainerAICategoryType
@@ -92,10 +93,11 @@ export const TrainerFrameEditor = forwardRef<EditorHandlingClose>((_, ref) => {
     if (!battleIdRef.current || !canClose()) return;
 
     updateTrainer({
-      battleId: battleIdRef.current.value === '' ? trainer.battleId : battleIdRef.current.valueAsNumber,
+      battleId: battleId.current.value === '' ? trainer.battleId : battleId.current.valueAsNumber,
       baseMoney: isNaN(baseMoney) ? trainer.baseMoney : baseMoney,
       ai: aiLevel,
       vsType: vsType,
+      battleTransition: battleTransitionRef.current?.valueAsNumber ?? trainer.battleTransition,
     });
     saveTexts();
   };
@@ -181,6 +183,17 @@ export const TrainerFrameEditor = forwardRef<EditorHandlingClose>((_, ref) => {
             </Label>
             <Input type="number" name="battle-id" min="0" max="9999" defaultValue={trainer.battleId} ref={battleIdRef} />
           </InputWithLeftLabelContainer>
+          <InputWithLeftLabelContainer>
+            <Label htmlFor="battle-transition">{t('battle_transition')}</Label>
+            <Input
+          type="number"
+          name="battle-transition"
+          min="0"
+          max="9999"
+          defaultValue={trainer.battleTransition}
+          ref={battleTransitionRef}
+        />
+</InputWithLeftLabelContainer>
         </PaddedInputContainer>
         <InputGroupCollapse title={t('money')} gap="16px" collapseByDefault>
           <PaddedInputContainer size="s">
