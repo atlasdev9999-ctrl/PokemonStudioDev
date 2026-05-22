@@ -52,6 +52,7 @@ export const TRAINER_VALIDATOR = z.object({
   bagEntries: z.array(TRAINER_BAG_ENTRY_VALIDATOR),
   battleId: POSITIVE_OR_ZERO_INT,
   ai: POSITIVE_OR_ZERO_INT.default(1),
+  battleTransition: POSITIVE_OR_ZERO_INT.default(0),
   party: z.array(ENCOUNTER_VALIDATOR),
   resources: TRAINER_RESOURCES_VALIDATOR,
   additionalDialogs: z.array(TRAINER_ADDITIONAL_DIALOGS_VALIDATOR),
